@@ -910,6 +910,8 @@ lv_obj_t* UIManager::createScreen(Screen screen)
 
             break;
         }
+        case SCREEN_COUNT:
+            break;
     }
 
     return root;
