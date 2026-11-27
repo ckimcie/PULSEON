@@ -17,3 +17,5 @@ include/wifi_secrets.h
 .pio/
 logs/
 *.bak
+.devcontainer/
+.github/
