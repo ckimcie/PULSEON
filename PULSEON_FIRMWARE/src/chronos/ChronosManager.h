@@ -20,6 +20,8 @@ public:
     int getSosContactIndex();
 
     uint8_t getPhoneBattery();
+    void serviceExtras();
+    uint32_t lastBatterySendMs = 0;
     bool isPhoneCharging();
 
     int getNotificationCount();

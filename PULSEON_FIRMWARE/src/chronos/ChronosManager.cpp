@@ -79,6 +79,7 @@ void ChronosManager::pollPhoneState()
     }
 
     appState->setPhoneBattery(watch.getPhoneBattery());
+    serviceExtras();
     appState->setPhoneCharging(watch.isPhoneCharging());
     appState->setNotificationCount(watch.getNotificationCount());
 }
@@ -800,4 +801,46 @@ String ChronosManager::getAddress()
 int ChronosManager::getSosContactIndex()
 {
     return watch.getSOSContactIndex();
+}
+
+
+// ---- watch battery -> phone (enabled by -DPULSEON_BAT_ADC_PIN=<gpio>) ----
+#ifndef PULSEON_BAT_DIVIDER
+#define PULSEON_BAT_DIVIDER 2.0f   // VBAT / ADC-pin voltage ratio
+#endif
+
+static int batteryPercentFromMv(float mv)
+{
+    static const struct { float mv; int pct; } curve[] = {
+        {3300, 0}, {3500, 10}, {3600, 25}, {3700, 45},
+        {3800, 65}, {3900, 80}, {4050, 93}, {4200, 100}};
+    const int n = sizeof(curve) / sizeof(curve[0]);
+    if (mv <= curve[0].mv) return 0;
+    if (mv >= curve[n - 1].mv) return 100;
+    for (int k = 1; k < n; k++)
+        if (mv <= curve[k].mv)
+            return curve[k - 1].pct + (int)((mv - curve[k - 1].mv) *
+                   (curve[k].pct - curve[k - 1].pct) / (curve[k].mv - curve[k - 1].mv));
+    return 100;
+}
+
+static int readWatchBatteryLevel()
+{
+#ifdef PULSEON_BAT_ADC_PIN
+    uint32_t sum = 0;
+    for (int k = 0; k < 8; k++) sum += analogReadMilliVolts(PULSEON_BAT_ADC_PIN);
+    return batteryPercentFromMv((sum / 8.0f) * PULSEON_BAT_DIVIDER);
+#else
+    return -1;
+#endif
+}
+
+void ChronosManager::serviceExtras()
+{
+    uint32_t now = millis();
+    if (lastBatterySendMs != 0 && now - lastBatterySendMs < 180000) return;
+    int lvl = readWatchBatteryLevel();
+    if (lvl < 0) return;
+    watch.setBattery(static_cast<uint8_t>(lvl), false);
+    lastBatterySendMs = now;
 }
