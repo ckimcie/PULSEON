@@ -181,11 +181,6 @@ void styleButton(lv_obj_t* button, bool selected)
     lv_obj_add_flag(button, LV_OBJ_FLAG_EVENT_BUBBLE);
 }
 
-void styleButtonLabel(lv_obj_t* label)
-{
-    lv_obj_add_flag(label, LV_OBJ_FLAG_EVENT_BUBBLE);
-}
-
 }
 
 void UIManager::begin(AppStateManager* state)
