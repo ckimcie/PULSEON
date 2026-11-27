@@ -501,7 +501,7 @@ inline const lv_image_dsc_t* uiIcon(uint8_t id)
         }
         ready = true;
     }
-    return &dsc[id < UI_ICON_COUNT ? id : UI_ICON_APPS];
+    return &dsc[id < UI_ICON_COUNT ? id : static_cast<uint8_t>(UI_ICON_APPS)];
 }
 
 inline bool uiIconHas(const char* text, const char* word)
