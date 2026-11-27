@@ -991,7 +991,6 @@ void UIManager::applyHomeFace()
 }
 
 static ChronosManager* gMusicChronos = nullptr;
-static bool gMusicPlaying = false;
 
 static void newFaceMusicHandler(uint8_t action)
 {
