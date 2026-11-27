@@ -45,7 +45,7 @@ void loadSaved()
     for (uint8_t i = 0; i < n && i < MAX_SAVED; ++i)
     {
         char ks[8];
-        char kp[8];
+        char kp[16];
         snprintf(ks, sizeof(ks), "s%u", static_cast<unsigned>(i));
         snprintf(kp, sizeof(kp), "p%u", static_cast<unsigned>(i));
         String s = prefs.getString(ks, "");
@@ -72,7 +72,7 @@ void storeSaved()
     for (uint8_t i = 0; i < savedCount; ++i)
     {
         char ks[8];
-        char kp[8];
+        char kp[16];
         snprintf(ks, sizeof(ks), "s%u", static_cast<unsigned>(i));
         snprintf(kp, sizeof(kp), "p%u", static_cast<unsigned>(i));
         prefs.putString(ks, saved[i].ssid);
