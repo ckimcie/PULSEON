@@ -759,6 +759,8 @@ lv_obj_t* UIManager::createScreen(Screen screen)
 
     switch (screen)
     {
+        case SCREEN_COUNT:
+            break;
         case SCREEN_WATCH_HOME:
         {
             for (uint8_t face = 0; face < 6; ++face)
