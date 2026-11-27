@@ -163,12 +163,6 @@ lv_obj_t* createMetricPill(
     return createLabel(pill, text, 4, 2, width - 8, 22, font_h5, color, LV_TEXT_ALIGN_CENTER);
 }
 
-void createBadge(lv_obj_t* parent, const char* text, int32_t y)
-{
-    lv_obj_t* badge = createCard(parent, 78, y, 84, 25, UI_COLOR_ACCENT_DARK, 12);
-    createLabel(badge, text, 4, 2, 76, 21, font_h5, UI_COLOR_ACCENT, LV_TEXT_ALIGN_CENTER);
-}
-
 void styleButton(lv_obj_t* button, bool selected)
 {
     lv_obj_set_style_bg_color(button, selected ? UI_COLOR_ACCENT_DARK : UI_COLOR_CARD, 0);
